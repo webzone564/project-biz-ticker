@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import json
+import os
 
 # ---------- CONFIG -----------
 
@@ -10,7 +12,8 @@ st.set_page_config(page_title="Project Biz Ticker", layout="centered")
 # ---------- CONNECT TO GOOGLE SHEET -----------
 
 scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+service_account_info = json.loads(st.secrets["gcp_service_account"])
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scope)
 client = gspread.authorize(credentials)
 sheet = client.open("project_biz_status").sheet1
 data = pd.DataFrame(sheet.get_all_records())
