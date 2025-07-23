@@ -16,7 +16,6 @@ service_account_info = json.loads(st.secrets["gcp_service_account"])
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scope)
 client = gspread.authorize(credentials)
 sheet = client.open("project_biz_status").sheet1
-sheet.update_cell(2, 2, "✅ TEST WRITE")
 data = pd.DataFrame(sheet.get_all_records())
 
 # ---------- UI LOGIC -----------
