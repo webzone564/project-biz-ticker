@@ -36,6 +36,15 @@ st.write(f"### 👀 {other_user} is currently: **{other_status}**")
 # Toggle
 if st.button("Toggle My Status"):
     new_status = "Available" if my_status == "Not Available" else "Not Available"
+    st.write("🔁 New Status to be set:", new_status)
+
     row = data[data['name'] == user].index[0] + 2  # +2 to match sheet row
-    sheet.update_cell(row, 2, new_status)
+    st.write("🧩 Row number in sheet:", row)
+
+    try:
+        sheet.update_cell(row, 2, new_status)
+        st.success("✅ Sheet updated successfully!")
+    except Exception as e:
+        st.error(f"❌ Failed to update sheet: {e}")
+
     
